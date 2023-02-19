@@ -22,6 +22,6 @@ tasks:
 ```
 #### Verify AWS CLI on Gitpod
 
-We can run ```aws --version`` on the gitpod environment to ensure that **AWS CLI** was installed successfully!
+We can run ```aws --version``` on the gitpod environment to ensure that **AWS CLI** was installed successfully!
 
-[/assets/week0/aws-installation-verification.PNG](AWS CLI on Gitpod)
+[AWS CLI on Gitpod](/assets/week0/aws-installation-verification.PNG)
