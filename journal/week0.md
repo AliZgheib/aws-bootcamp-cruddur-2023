@@ -125,3 +125,24 @@ aws budgets create-budget \
 #### Confirm that the budget was created on the AWS console
 
 ![AWS Budget](assets/week0/aws-budget.PNG)
+
+### Conceptual/Napkin Diagram
+
+**Image and Description to be Added**
+
+### Logical Diagram
+
+**Image and Description to be Added**
+
+## Homework Challenges
+
+### Delete Root credentials & Setup MFA
+
+- I deleted root account credentials 
+- I completed MFA Setup for the root account using Auth
+- I created an IAM user + access credentials
+- I completed MFA setup for my IAM user as well
+
+![AWS IAM Dashboard](assets/week0//aws-mfa.PNG)
+
+### Additional challenges ( CI/CD Diagram | Service limit research + ticket | Well architected framework | Health Dashboard + SNS + EventBridge)
