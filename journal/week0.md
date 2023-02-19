@@ -63,4 +63,4 @@ We can confirm that these credentials are working by running the CLI command bel
 
 Finally we receive a successful response
 
-[AWS Credentials Response](assets/week1/aws-installation-verification.PNG)
+![AWS Credentials Response](assets/week1/aws-installation-verification.PNG)
