@@ -132,7 +132,16 @@ aws budgets create-budget \
 
 ### Logical Diagram
 
-**Image and Description to be Added**
+- We use Route 53 as a DNS service to map our domain to our CloudFront distribution
+- We use Cloudfront to cache static assets at the edge ( using AWS Edge Locations ) and forward dynamic requests to the Load Balancer
+- We use AWS shield with CloudFront to protect our VPC and services ( attacks blocked at the Edge Locations) - this service can protect us from DDOS attacks
+- We use use AWS WAF to protect our VPC and services from more sophisticated attacks and block IP addresses at the Edge Location
+- We use ALB to load balance the traffic between the app and the api
+- We use AWS cognito to authenticate the users at the ALB level
+- We use DynamoDB and RDS as databases + Go Momento for serverless caching
+- We use S3 + lambda services to process/resize/compress avatars/assets uploaded to our S3 bucket - the final result is also uploaded to S3
+
+![Logical Diagram](assets/week0//conceptual-diagram.PNG)
 
 ## Homework Challenges
 
