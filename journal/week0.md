@@ -128,7 +128,8 @@ aws budgets create-budget \
 
 ### Conceptual/Napkin Diagram
 
-**Image and Description to be Added**
+![Conceptual/Napkin Diagram](assets/week0/napkin-diagram.PNG)
+[Link to the Diagram](https://lucid.app/lucidchart/36cfe8cb-9099-4b2c-910a-d0892eae2125/edit?viewport_loc=-483%2C309%2C2560%2C944%2C0_0&invitationId=inv_6d3228d3-0017-4035-868c-2b077b49fbab)
 
 ### Logical Diagram
 
@@ -142,6 +143,7 @@ aws budgets create-budget \
 - We use S3 + lambda services to process/resize/compress avatars/assets uploaded to our S3 bucket - the final result is also uploaded to S3
 
 ![Logical Diagram](assets/week0//conceptual-diagram.PNG)
+[Link to the Diagram](https://lucid.app/lucidchart/2992a026-e6c0-4e5a-a6b6-bb33c988b55b/edit?viewport_loc=-899%2C575%2C2559%2C944%2C0_0&invitationId=inv_a6f6f910-6295-4aee-a171-f31b452c1462)
 
 ## Homework Challenges
 
@@ -154,4 +156,22 @@ aws budgets create-budget \
 
 ![AWS IAM Dashboard](assets/week0//aws-mfa.PNG)
 
-### Additional challenges ( CI/CD Diagram | Service limit research + ticket | Well architected framework | Health Dashboard + SNS + EventBridge)
+### Health Dashboard + SNS + EventBridge
+
+[The AWS documentation](https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html) provides a detailed step by step tutorial on how we can publish notifications based on AWS Health Dashboard events ( in case of services issues/downtime )
+
+1. Create AWS Event Bridge rule and SNS topic
+
+- on the AWS console we create a SNS topic
+- We can susbcribe our ourselves to the SNS topic using our email address
+- we confirm our subscription
+- we create a new event bridge rule
+- in the **Event Pattern** we use **AWS Health** as the source service
+- we set our previously created SNS topic as target resource
+- we finalize the creation of the event bridge rule
+
+2. We confirm the creation of the Event Bridge rule
+
+![AWS Event bridge source rule](assets/week0//aws-health-1.PNG)
+![AWS Event bridge source rule](assets/week0//aws-health-2.PNG)
+
