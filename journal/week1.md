@@ -38,9 +38,9 @@ Run the react application
 ```
 npm run start
 ```
-Image showing the process of running the commands
+#### Image showing the process of running the commands
 ![Running commands](assets/week1/without-docker-1.PNG)
-Image showing Crudder up and running
+#### Image showing Crudder up and running
 ![Cruddur Running](assets/week1/without-docker-2.PNG)
 
 ### Running Cruddur using Dockerfile
@@ -104,7 +104,7 @@ docker build ./frontend-react-js -t frontend-react-js
 docker run -p 3000:3000 -d frontend-react-js
 ```
 
-Image showing Crudder up and running
+#### Image showing Crudder up and running
 ![Cruddur Running](assets/week1/with-docker-1.PNG)
 
 ### Running Cruddur using Docker compose
