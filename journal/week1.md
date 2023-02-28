@@ -39,14 +39,73 @@ Run the react application
 npm run start
 ```
 Image showing the process of running the commands
-![Running commands](assets/week1//without-docker-1.PNG)
+![Running commands](assets/week1/without-docker-1.PNG)
 Image showing Crudder up and running
-![Cruddur Running](assets/week1//without-docker-2.PNG)
+![Cruddur Running](assets/week1/without-docker-2.PNG)
 
 ### Running Cruddur using Dockerfile
 
-1. Step1
-2. Step2
+#### Set up the backend:
+
+1. Create a new Dockerfile in the backend-flask directory:
+```
+FROM python:3.10-slim-buster
+
+WORKDIR /backend-flask
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+ENV FLASK_DEBUG=1
+
+EXPOSE ${PORT}
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+```
+
+2. Build backend-flask docker image
+
+```
+docker build ./backend-flask -t backend-flask
+```
+
+3. Run backend-flask container from the image ( detached mode )
+
+```
+docker run -p 4567:4567 -e BACKEND_URL=* -e FRONTEND_URL=* -d backend-flask
+```
+
+#### Set up the frontend:
+
+1. Create a new Dockerfile in the frontend-react-js directory:
+
+```
+FROM node:16.18
+
+ENV PORT=3000
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+EXPOSE ${PORT}
+CMD ["npm", "start"]
+```
+
+2. Build frontend-react-js docker image
+
+```
+docker build ./frontend-react-js -t frontend-react-js
+```
+
+3. Run frontend-react-js container from the image ( detached mode )
+
+```
+docker run -p 3000:3000 -d frontend-react-js
+```
+
+Image showing Crudder up and running
+![Cruddur Running](assets/week1/with-docker-1.PNG)
 
 ### Running Cruddur using Docker compose
 
