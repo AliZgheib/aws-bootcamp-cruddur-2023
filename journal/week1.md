@@ -38,6 +38,10 @@ Run the react application
 ```
 npm run start
 ```
+Image showing the process of running the commands
+![Running commands](assets/week1//without-docker-1.PNG)
+Image showing Crudder up and running
+![Cruddur Running](assets/week1//without-docker-1.PNG)
 
 ### Running Cruddur using Dockerfile
 
