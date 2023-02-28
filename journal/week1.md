@@ -4,7 +4,7 @@
 
 ### Running Cruddur without Docker
 
-1. Set up the backend:
+#### Set up the backend:
 
 Navigate into the correct directory:
 ```
@@ -24,7 +24,7 @@ Run flask backend server
 python -m flask run --debug --host=0.0.0.0 --port=4567
 ```
 
-2. Set up the frontend:
+#### Set up the frontend:
 
 Navigate into the correct directory:
 ```
