@@ -127,11 +127,13 @@ docker run -p 3000:3000 -e REACT_APP_BACKEND_URL -d frontend-react-js
 ```
 
 #### Image showing Crudder up and running
-![Cruddur Running](assets/week1/with-docker-1.PNG)
+![Cruddur Running](assets/week1/with-docker.PNG)
 
 ### Running Cruddur using Docker compose
 
-1. We create in the root directory **docker-compose.yml** file and we add the following to it:
+#### Create docker-compose.yml
+
+We create in the root directory **docker-compose.yml** file and we add the following to it:
 
 ```
 version: "3.8"
@@ -179,11 +181,14 @@ Why do we do this?
 
 The same issue discussed on [stackoverflow](https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds)
 
-2. We build and run the services/containers
+#### We build and run the containers
 
 ```
 docker compose up
 ```
+
+#### Image showing Crudder up and running
+![Cruddur Running](assets/week1/docker-compose.PNG)
 
 ### Adding DynamoDB Local and Postgres
 
