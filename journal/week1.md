@@ -177,7 +177,7 @@ Why do we do this?
 - This means that we no longer need to access the resources on our local computer. We only need the resources in the Docker container.
 - As a result, we can remove the need for Node or any other local dependencies entirely.
 
-The same issue discussed on (stackoverflow)[https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds]
+The same issue discussed on [stackoverflow](https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds)
 
 2. We build and run the services/containers
 
