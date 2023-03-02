@@ -17,7 +17,7 @@ pip3 install -r requirements.txt
 Add the necessary environment variables
 ```
 export BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-export FRONTEND_URL="https://3001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+export FRONTEND_URL="https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
 ```
 Run flask backend server
 ```
