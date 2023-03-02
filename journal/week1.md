@@ -131,6 +131,60 @@ docker run -p 3000:3000 -e REACT_APP_BACKEND_URL -d frontend-react-js
 
 ### Running Cruddur using Docker compose
 
+1. We create in the root directory **docker-compose.yml** file and we add the following to it:
+
+```
+version: "3.8"
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+      - /frontend-react-js/node_modules
+# the name flag is a hack to change the default prepend folder
+# name when outputting the image names
+networks: 
+  internal-network:
+    driver: bridge
+    name: cruddur
+```
+You may notice 2 volumes for the **frontend-react-js** service. it's not a coincidence and the second volume was added for a specific reason.
+
+```
+# docker-compose.yaml
+...
+volumes:
+  - ./frontend-react-js:/frontend-react-js
+  - /frontend-react-js/node_modules 👈
+```
+
+Why do we do this?
+- By adding the - /frontend-react-js/node_modules line, we are telling Docker to create a second volume (an anonymous volume) in addition to the one we already have, ./frontend-react-js:/frontend-react-js.
+- When the containers are run, the Docker engine will use this secondary volume (/frontend-react-js/node-modules) to access the dependencies needed by the React application.
+- This means that we no longer need to access the resources on our local computer. We only need the resources in the Docker container.
+- As a result, we can remove the need for Node or any other local dependencies entirely.
+
+The same issue discussed on (stackoverflow)[https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds]
+
+2. We build and run the services/containers
+
+```
+docker compose up
+```
+
 ### Adding DynamoDB Local and Postgres
 
 #### Postgres
