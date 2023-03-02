@@ -73,11 +73,17 @@ CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
 ```
 docker build ./backend-flask -t backend-flask
 ```
-
-3. Run backend-flask container from the image ( detached mode )
+3. Add the necessary environment variables
 
 ```
-docker run -p 4567:4567 -e BACKEND_URL=* -e FRONTEND_URL=* -d backend-flask
+export BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+export FRONTEND_URL="https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+```
+
+4. Run backend-flask container from the image ( detached mode )
+
+```
+docker run -p 4567:4567 -e BACKEND_URL -e FRONTEND_URL -d backend-flask
 ```
 
 #### Set up the frontend:
@@ -102,10 +108,16 @@ CMD ["npm", "start"]
 docker build ./frontend-react-js -t frontend-react-js
 ```
 
-3. Run frontend-react-js container from the image ( detached mode )
+3. Add the necessary environment variables
 
 ```
-docker run -p 3000:3000 -d frontend-react-js
+export REACT_APP_BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+```
+
+4. Run frontend-react-js container from the image ( detached mode )
+
+```
+docker run -p 3000:3000 -e REACT_APP_BACKEND_URL -d frontend-react-js
 ```
 
 #### Image showing Crudder up and running
