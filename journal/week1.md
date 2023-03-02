@@ -12,16 +12,16 @@ cd backend-flask
 ```
 Install the required dependencies based on requirements.txt
 ```
-pipe3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 Add the necessary environment variables
 ```
-export BACKEND_URL=*
-export FRONTEND_URL=*
+export BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+export FRONTEND_URL="https://3001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
 ```
 Run flask backend server
 ```
-python -m flask run --debug --host=0.0.0.0 --port=4567
+python3 -m flask run --debug --host=0.0.0.0 --port=4567
 ```
 
 #### Set up the frontend:
@@ -33,6 +33,10 @@ cd frontend-react-js
 Install the required dependencies based on package.json
 ```
 npm install
+```
+Add the necessary environment variables
+```
+export REACT_APP_BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
 ```
 Run the react application
 ```
