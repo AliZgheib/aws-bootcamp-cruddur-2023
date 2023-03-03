@@ -230,9 +230,7 @@ volumes:
 
 3. verify that postgres is setup successfully
 
-```
 ![Postgres](assets/week1/postgres.PNG)
-```
 
 #### DynamoDB Local
 
@@ -255,9 +253,7 @@ services:
 ```
 2. verify that DynamoDB Local is setup successfully
 
-```
 ![Postgres](assets/week1/dynamodb-local.PNG)
-```
 
 ## Homework Challenges
 
