@@ -255,6 +255,17 @@ services:
 
 ![Postgres](assets/week1/dynamodb-local.PNG)
 
+### Adding Notifications service
+
+#### Notifications service setup
+
+1. add notifications service and API endpoint to the backend
+2. add notifications page to the frontend
+3. add notifications endpoint to the OpenAPI
+
+#### Notifications service up and running
+![Notifications service](assets/week1/notifications-service.PNG)
+
 ## Homework Challenges
 
 ### Running Cruddur outside of Gitpod / Codespaces ( Docker Desktop )
