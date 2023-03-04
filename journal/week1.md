@@ -270,6 +270,46 @@ services:
 
 ### Running Cruddur outside of Gitpod / Codespaces ( Docker Desktop )
 
+#### Install docker on windows
+
+We can follow the [instructions](https://docs.docker.com/desktop/install/windows-install/) provided by Docker:
+
+1. [Download Docker](https://docs.docker.com/desktop/install/windows-install/) from the official Docker website
+
+2. Double-click Docker Desktop Installer.exe to run the installer.
+
+If you haven’t already downloaded the installer (Docker Desktop Installer.exe), you can get it from Docker Hub. It typically downloads to your Downloads folder, or you can run it from the recent downloads bar at the bottom of your web browser.
+
+3. When prompted, ensure the Use WSL 2 instead of Hyper-V option on the Configuration page is selected or not depending on your choice of backend.
+
+If your system only supports one of the two options, you will not be able to select which backend to use.
+
+4. Follow the instructions on the installation wizard to authorize the installer and proceed with the install.
+
+5. When the installation is successful, click Close to complete the installation process.
+
+6. If your admin account is different to your user account, you must add the user to the docker-users group. Run Computer Management as an administrator and navigate to Local Users and Groups > Groups > docker-users. Right-click to add the user to the group. Log out and log back in for the changes to take effect.
+
+![Docker desktop](assets/week1//docker-desktop.PNG)
+
+#### Update environment variables in **docker-compose.yml**
+
+- FRONTEND_URL: "http://localhost:3000"
+- BACKEND_URL: "http://localhost:4567"
+- REACT_APP_BACKEND_URL: "http://localhost:4567"
+
+#### Run Cruddur locally 
+
+1. we run the containers locally
+
+```
+docker compose up
+```
+
+2. we verify that Cruddur is successfully running
+
+![Cruddur](assets/week1/docker-local.PNG)
+
 ### Pushing docker images to DockerHub
 
 ### Pushing docker images to AWS ECR
