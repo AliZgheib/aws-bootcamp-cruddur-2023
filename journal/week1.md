@@ -310,7 +310,7 @@ docker compose up
 
 #### Pushing Cruddur backend image to DockerHub
 
-1. we build the **cruddur-backend** image
+1. we build the **zgheibali/cruddur-backend:latest** image
 
 ```
 docker build ./backend-flask -t zgheibali/cruddur-backend:latest
@@ -326,7 +326,7 @@ docker push zgheibali/cruddur-backend:latest
 
 #### Pushing Cruddur backend image to DockerHub
 
-1. we build the **cruddur-frontend** image
+1. we build the **zgheibali/cruddur-frontend:latest** image
 
 ```
 docker build ./frontend-react-js -t zgheibali/cruddur-frontend:latest
