@@ -308,4 +308,35 @@ docker compose up
 
 ### Pushing docker images to DockerHub
 
-### Pushing docker images to AWS ECR
+#### Pushing Cruddur backend image to DockerHub
+
+1. we build the **cruddur-backend** image
+
+```
+docker build ./backend-flask -t zgheibali/cruddur-backend:latest
+```
+
+2. we push the created image to DockerHub
+
+```
+docker push zgheibali/cruddur-backend:latest
+```
+
+3. verify that the image was successfully pushed to [DockerHub](https://hub.docker.com/r/zgheibali/cruddur-backend/tags)
+
+#### Pushing Cruddur backend image to DockerHub
+
+1. we build the **cruddur-frontend** image
+
+```
+docker build ./frontend-react-js -t zgheibali/cruddur-frontend:latest
+```
+
+2. we push the created image to DockerHub
+
+```
+docker push zgheibali/cruddur-frontend:latest
+```
+
+3. verify that the image was successfully pushed to [DockerHub](https://hub.docker.com/r/zgheibali/cruddur-frontend/tags)
+
