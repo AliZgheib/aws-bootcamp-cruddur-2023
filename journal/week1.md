@@ -276,13 +276,9 @@ We can follow the [instructions](https://docs.docker.com/desktop/install/windows
 
 1. [Download Docker](https://docs.docker.com/desktop/install/windows-install/) from the official Docker website
 
-2. Double-click Docker Desktop Installer.exe to run the installer.
+2. Double-click Docker Desktop Installer.exe to run the installer. If you haven’t already downloaded the installer (Docker Desktop Installer.exe), you can get it from Docker Hub. It typically downloads to your Downloads folder, or you can run it from the recent downloads bar at the bottom of your web browser.
 
-If you haven’t already downloaded the installer (Docker Desktop Installer.exe), you can get it from Docker Hub. It typically downloads to your Downloads folder, or you can run it from the recent downloads bar at the bottom of your web browser.
-
-3. When prompted, ensure the Use WSL 2 instead of Hyper-V option on the Configuration page is selected or not depending on your choice of backend.
-
-If your system only supports one of the two options, you will not be able to select which backend to use.
+3. When prompted, ensure the Use WSL 2 instead of Hyper-V option on the Configuration page is selected or not depending on your choice of backend. If your system only supports one of the two options, you will not be able to select which backend to use.
 
 4. Follow the instructions on the installation wizard to authorize the installer and proceed with the install.
 
