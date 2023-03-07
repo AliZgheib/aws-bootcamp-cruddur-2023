@@ -42,13 +42,16 @@ def after_request(response):
     return response
 ```
 
-#### Verify the integration of CloudWatch
+#### Verify the integration on CloudWatch
 
-1. we we run our application using ```docker compose up``` command and we access the home page
+1. we run our application using ```docker compose up``` command and we open the home page
 
 2. we verify that **cruddur-backend-flask** was created successfully on AWS CloudWatch log groups
 
 ![Cloud watch log group](assets/week2/cloudwatch-logs-1.PNG)
-![Cloud watch log group](assets/week2/cloudwatch-logs-2.PNG)
+
+3. we verify that **watchtower** is outputting logs on our log group
+
+![Cloud watch log event](assets/week2/cloudwatch-logs-2.PNG)
 
 ## Homework Challenges
