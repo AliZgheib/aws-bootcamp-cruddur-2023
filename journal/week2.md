@@ -121,10 +121,12 @@ def init_rollbar():
 
 5. We add a new endpoint in ```app.py``` to test our rollbar integration
 
+```
 @app.route('/rollbar/test')
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
+```
 
 #### Verify the integration on Rollbar
 
@@ -134,7 +136,7 @@ def rollbar_test():
 
 ![Rollbar endpoint response](assets/week2/rollbar-1.PNG)
 
-3. we verify that **watchtower** is outputting logs on our log group
+3. we verify that we are receiving logs on Rollbar
 
 ![Rollbar logs](assets/week2/rollbar-2.PNG)
 
