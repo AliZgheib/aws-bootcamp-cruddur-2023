@@ -17,7 +17,6 @@ pip install -r requirements.txt
 
 1. add the necessary imports 
 ```
-# CloudWatch logs ------------------
 import watchtower
 import logging
 from time import strftime
