@@ -86,8 +86,7 @@ FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
 # Configure AWS X-Ray
-xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service='cruddur-backend-flask', dynamic_naming=xray_url)
+xray_recorder.configure(service='cruddur-backend-flask')
 XRayMiddleware(app, xray_recorder)
 
 @app.after_request
