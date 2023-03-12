@@ -144,13 +144,26 @@ def rollbar_test():
 
 #### Introduction
 
-Instead of doing the setup that was done live. I'll be implementing our backend flask application to write to **otel collector**. this is more scalable appraoch and will allow us to add other backend services and our react application as well in the future.
+Instead of doing the setup that was done live. I'll be implementing our backend flask application to write to **otel collector**. this is more scalable approach and will allow us to add other backend services and our react application as well in the future.
 
 More information can be found on the official [OpenTelemetry](https://opentelemetry.io/docs/collector/) website
 
-Here's a simple illustration to showcase the appraoch that we are trying to implement for our cruddur application.
+Here's a simple illustration to showcase the approach that we are trying to implement for our cruddur application.
 
 ![OpenTelemetry and Cruddur](assets/week2//opentelemetry-collector.jpg)
+
+#### Setup HoneyComb project
+
+1. we visit [HoneyComb](https://www.honeycomb.io/) website
+
+2. Created a new enviroment and retrieve our api key
+
+#### Add environment variables
+
+```
+export HONEYCOMB_API_KEY=""
+gp env HONEYCOMB_API_KEY=""
+```
 
 #### Install the required libraries
 
@@ -265,8 +278,6 @@ app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 ```
-
-5. add the necessary environment variables
 
 
 ## Homework Challenges
