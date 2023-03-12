@@ -293,4 +293,100 @@ https://3000-alizgheib-awsbootcampcr-06dny5wukq3.ws-us90.gitpod.io/
 3. we validate on HoneyComb dashboard that we have a new dataset **cruddur-backend-flask** created and that we are successfully receiving data from our **backend-flask** service
 ![Cruddur Backend flask](assets/week2/honeycomb-1.PNG)
 
+### X-Ray
+
+#### Setup X-Ray with our Flask app
+
+1. add ```aws-xray-sdk``` to the ```requirements.txt``` file
+
+2. add the following environment variables to our **backend-flask** service.
+
+```
+version: "3.8"
+services:
+    backend-flask:
+        environment:
+
+            # other environment variables
+
+            AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
+
+    # other services
+```
+
+this will tell our backend flask application to send the backend traces to the **xray-daemon** that we are going to create shorly.
+
+3. add the **xray-daemon** service to our ```docker-compose.yml``` file
+
+```
+version: "3.8"
+services:
+
+  # other services
+
+  xray-daemon:
+      image: "amazon/aws-xray-daemon"
+      environment:
+          AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+          AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+          AWS_REGION: "us-east-1"
+      command:
+          - "xray -o -b xray-daemon:2000"
+      ports:
+          - 2000:2000/udp
+```
+4. create a group on aws-xray to ensure we could group our traces
+
+```
+aws xray create-group \
+--group-name "cruddur-backend-flask" \
+--filter-expression "service(\"cruddur-backend-flask\")"
+```
+
+5. we create a sampling as follow:
+
+```
+{
+    "SamplingRule": {
+        "RuleName": "cruddur-backend-flask",
+        "ResourceARN": "*",
+        "Priority": 9000,
+        "FixedRate": 0.1,
+        "ReservoirSize": 5,
+        "ServiceName": "cruddur-backend-flask",
+        "ServiceType": "*",
+        "Host": "*",
+        "HTTPMethod": "*",
+        "URLPath": "*",
+        "Version": 1
+    }
+}
+```
+
+```
+aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
+```
+
+6. add necessary changes to ```app.py```
+
+```
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+```
+
+```
+xray_recorder.configure(service='cruddur-backend-flask')
+XRayMiddleware(app, xray_recorder)
+```
+#### Validate the automated backend instrumentation
+
+1. we run our application using ```docker compose up``` command
+
+2. we navigate around the pages of our Currdur application ( ex: home, notifications, messages, etc.. )
+
+3. we validate on AWS X-Ray dashboard that we have new traces under our **cruddur-backend-flask** group
+
+![AWS X-Ray](assets/week2/x-ray-1.PNG)
+![AWS X-Ray](assets/week2/x-ray-2.PNG)
+
 ## Homework Challenges
