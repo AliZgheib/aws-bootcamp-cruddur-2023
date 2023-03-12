@@ -282,6 +282,13 @@ app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 ```
+#### Validate the automated backend instrumentation
 
+1. we visit our home page by opening the link below:
+
+https://3000-alizgheib-awsbootcampcr-06dny5wukq3.ws-us90.gitpod.io/
+
+2. we validate on HoneyComb dashboard that we have a new dataset **cruddur-backend-flask** created and that we are successfully receiving data from our **backend-flask** service
+![Cruddur Backend flask](assets/week2/honeycomb-1.PNG)
 
 ## Homework Challenges
