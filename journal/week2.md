@@ -195,18 +195,22 @@ services:
 
             # other environment variables
 
-            OTEL_SERVICE_NAME: "backend-flask"
-            OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
-            OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+            OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+            OTEL_SERVICE_NAME: "cruddur-backend-flask"
 
     # other services
 ```
 
 this will tell our backend flask application to send the backend traces to the **otel-collector** that we are going to create shorly.
 
-2. add the **otel-collector* service to our ```docker-compose.yml``` file
+2. add the **otel-collector** service to our ```docker-compose.yml``` file
 
 ```
+version: "3.8"
+services:
+
+  # other services
+
   otel-collector:
     image: otel/opentelemetry-collector:0.67.0
     environment:
@@ -224,7 +228,7 @@ this will tell our backend flask application to send the backend traces to the *
       - "4318:4318"   # OTLP http receiver
       - "55679:55679" # zpages extension
 ```
-3. create the ```otel-collector-config.yaml``` config file that will be used by the otel collector
+3. create the ```otel-collector-config.yaml``` config file that will be used by the **otel collector**
 
 ```
 receivers:
