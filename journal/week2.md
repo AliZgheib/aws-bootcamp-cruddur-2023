@@ -366,3 +366,82 @@ XRayMiddleware(app, xray_recorder)
 ![AWS X-Ray](assets/week2/x-ray-2.PNG)
 
 ## Homework Challenges
+
+### Add custom instrumentation to Honeycomb & run custom queries in Honeycomb
+
+#### user_activities - popular users on Crddur
+
+we add custom instrumentation to the **user_activities** service and we set the **user_handle** as a custom attribute. this will allow us to discover the most popular and searched users on Cruddur platform.
+
+1. we update the ```user_activities.py``` file
+
+```
+# other imports..
+
+from opentelemetry import trace
+tracer = trace.get_tracer(__name__)
+```
+
+```
+# inside the class run function
+
+span = trace.get_current_span()
+span.set_attribute("app.user_handle", user_handle)
+```
+
+2. we try accessing different profiles on Cruddur ( ex /@andrewbrown or /@alizgheib ) and validate the results on HoneyComb
+
+![HoneyComb](assets/week2/honeycomb-2.PNG)
+
+#### show_activity - popular activities on Crddur
+
+we add custom instrumentation to the **show_activity** service and we set the **activity_uuid** as a custom attribute. this will allow us to discover the most popular activities on Cruddur platform.
+
+1. we update the ```show_activity.py``` file
+
+```
+# other imports..
+
+from opentelemetry import trace
+tracer = trace.get_tracer(__name__)
+```
+
+```
+# inside the class run function
+
+span = trace.get_current_span()
+span.set_attribute("app.activity_uuid", activity_uuid)
+```
+
+2. we try accessing different activities on Cruddur ( ex /activity-1 or /activity-2 ) and validate the results on HoneyComb
+
+![HoneyComb](assets/week2/honeycomb-3.PNG)
+
+
+#### search_activities - popular activities on Crddur
+
+we add custom instrumentation to the **search_activities** service and we set the **search_term** as a custom attribute. this will allow us to discover the most searched activities on Cruddur platform.
+
+1. we update the ```search_activities.py``` file
+
+```
+# other imports..
+
+from opentelemetry import trace
+tracer = trace.get_tracer(__name__)
+```
+
+```
+# inside the class run function
+
+span = trace.get_current_span()
+span.set_attribute("app.search_term", search_term)
+```
+
+2. we try searching different activities on Cruddur ( ex /search?term=AWS or /search?term=andrewbrown etc... ) and validate the results on HoneyComb
+
+![HoneyComb](assets/week2/honeycomb-4.PNG)
+
+### Instrument Honeycomb for the frontend-application
+
+### Add custom instrumentation to AWS X-Ray
