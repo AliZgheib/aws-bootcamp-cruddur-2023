@@ -140,4 +140,133 @@ def rollbar_test():
 
 ![Rollbar logs](assets/week2/rollbar-2.PNG)
 
+### HoneyComb 
+
+#### Introduction
+
+Instead of doing the setup that was done live. I'll be implementing our backend flask application to write to **otel collector**. this is more scalable appraoch and will allow us to add other backend services and our react application as well in the future.
+
+More information can be found on the official [OpenTelemetry](https://opentelemetry.io/docs/collector/) website
+
+Here's a simple illustration to showcase the appraoch that we are trying to implement for our cruddur application.
+
+![OpenTelemetry and Cruddur](assets/week2//opentelemetry-collector.jpg)
+
+#### Install the required libraries
+
+1. add the list below to the ```requirements.txt```
+
+```
+opentelemetry-api 
+opentelemetry-sdk 
+opentelemetry-exporter-otlp-proto-http 
+opentelemetry-instrumentation-flask 
+opentelemetry-instrumentation-requests
+```
+
+2. install the libraries/dependencies
+
+```
+pip install -r requirements.txt
+```
+
+#### Setup HoneyComb with our Flask app
+
+1. add the following environment variables to our **backend-flask** service.
+
+```
+version: "3.8"
+services:
+    backend-flask:
+        environment:
+
+            # other environment variables
+
+            OTEL_SERVICE_NAME: "backend-flask"
+            OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
+            OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+
+    # other services
+```
+
+this will tell our backend flask application to send the backend traces to the **otel-collector** that we are going to create shorly.
+
+2. add the **otel-collector* service to our ```docker-compose.yml``` file
+
+```
+  otel-collector:
+    image: otel/opentelemetry-collector:0.67.0
+    environment:
+      HONEYCOMB_API_KEY: "${HONEYCOMB_API_KEY}"
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888"   # pprof extension
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "8889:8889"   # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP http receiver
+      - "55679:55679" # zpages extension
+```
+3. create the ```otel-collector-config.yaml``` config file that will be used by the otel collector
+
+```
+receivers:
+  otlp:
+    protocols:
+      http:
+        cors:
+          allowed_origins:
+            - "${FRONTEND_URL}" # this will allow trace requests from the frontend ( To solve CORS issues )
+                                # It's not required for the backend service
+processors:
+  batch:
+
+exporters:
+  otlp:
+    endpoint: "api.honeycomb.io:443"
+    headers:
+      "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
+```
+
+4. add necessary changes to ```app.py```
+
+```
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+```
+
+```
+# Initialize tracing and an exporter that can send data to Honeycomb
+provider = TracerProvider()
+processor = BatchSpanProcessor(OTLPSpanExporter())
+provider.add_span_processor(processor)
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer(__name__)
+```
+
+```
+# Initialize automatic instrumentation with Flask
+app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)
+RequestsInstrumentor().instrument()
+```
+
+5. add the necessary environment variables
+
+
 ## Homework Challenges
