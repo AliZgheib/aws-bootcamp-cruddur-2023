@@ -1,6 +1,14 @@
 from datetime import datetime, timedelta, timezone
-class ShowActivities:
+
+from opentelemetry import trace
+tracer = trace.get_tracer(__name__)
+
+class ShowActivity:
   def run(activity_uuid):
+
+    span = trace.get_current_span()
+    span.set_attribute("app.activity_uuid", activity_uuid)
+
     now = datetime.now(timezone.utc).astimezone()
     results = [{
       'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',

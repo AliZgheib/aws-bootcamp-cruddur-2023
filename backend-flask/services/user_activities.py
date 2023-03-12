@@ -1,6 +1,14 @@
 from datetime import datetime, timedelta, timezone
+
+from opentelemetry import trace
+tracer = trace.get_tracer(__name__)
+
 class UserActivities:
   def run(user_handle):
+
+    span = trace.get_current_span()
+    span.set_attribute("app.user_handle", user_handle)
+
     model = {
       'errors': None,
       'data': None
