@@ -4,19 +4,11 @@
 
 ### CloudWatch Logs
 
-#### Install the required libraries
+#### Setup CloudWatch with our Flask app
 
 1. add ```watchtower``` to the ```requirements.txt```
 
-2. install the libraries/dependencies
-
-```
-pip install -r requirements.txt
-```
-
-#### Setup CloudWatch with our Flask app
-
-1. add the necessary imports 
+2. add the necessary imports 
 
 ```
 import watchtower
@@ -24,7 +16,7 @@ import logging
 from time import strftime
 ```
 
-2. setup watchtower to ouput logs to **cruddur-backend-flask** log group on AWS CloudWatch
+3. setup watchtower to ouput logs to **cruddur-backend-flask** log group on AWS CloudWatch
 
 ```
 LOGGER = logging.getLogger(__name__)
@@ -35,7 +27,7 @@ LOGGER.addHandler(console_handler)
 LOGGER.addHandler(cw_handler)
 ```
 
-3. configure the **LOGGER** to ouput request info after each API call
+4. configure the **LOGGER** to ouput request info after each API call
 
 ```
 @app.after_request
@@ -65,32 +57,24 @@ def after_request(response):
 
 2. we create a new project **cruddur-backend-flask**
 
-#### Install the required libraries
+#### Setup Rollbar with our Flask app
 
 1. add ```blinker``` and ```rollbar``` to ```requirements.txt```
 
-2. install the libraries/dependencies
-
-```
-pip install -r requirements.txt
-```
-
-#### Setup Rollbar with our Flask app
-
-1. We need to set our access token
+2. We need to set our access token
 
 ```
 export ROLLBAR_ACCESS_TOKEN=""
 gp env ROLLBAR_ACCESS_TOKEN=""
 ```
 
-2. Add to backend-flask for ```docker-compose.yml```
+3. Add to backend-flask for ```docker-compose.yml```
 
 ```
 ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
 ```
 
-3. add the necessary imports
+4. add the necessary imports
 
 ```
 import rollbar
@@ -98,7 +82,7 @@ import rollbar.contrib.flask
 from flask import got_request_exception
 ```
 
-4. setup our app to ouput logs to **cruddur-backend-flask** on Rollbar
+5. setup our app to ouput logs to **cruddur-backend-flask** on Rollbar
 
 ```
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
@@ -119,7 +103,7 @@ def init_rollbar():
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 ```
 
-5. We add a new endpoint in ```app.py``` to test our rollbar integration
+6. We add a new endpoint in ```app.py``` to test our rollbar integration
 
 ```
 @app.route('/rollbar/test')
@@ -158,16 +142,16 @@ Here's a simple illustration to showcase the approach that we are trying to impl
 
 2. Created a new enviroment and retrieve our api key
 
-#### Add environment variables
+#### Setup HoneyComb with our Flask app
+
+1. add environment variables
 
 ```
 export HONEYCOMB_API_KEY=""
 gp env HONEYCOMB_API_KEY=""
 ```
 
-#### Install the required libraries
-
-1. add the list below to the ```requirements.txt```
+2. add the list below to the ```requirements.txt```
 
 ```
 opentelemetry-api 
@@ -177,15 +161,7 @@ opentelemetry-instrumentation-flask
 opentelemetry-instrumentation-requests
 ```
 
-2. install the libraries/dependencies
-
-```
-pip install -r requirements.txt
-```
-
-#### Setup HoneyComb with our Flask app
-
-1. add the following environment variables to our **backend-flask** service.
+3. add the following environment variables to our **backend-flask** service.
 
 ```
 version: "3.8"
@@ -203,7 +179,7 @@ services:
 
 this will tell our backend flask application to send the backend traces to the **otel-collector** that we are going to create shorly.
 
-2. add the **otel-collector** service to our ```docker-compose.yml``` file
+4. add the **otel-collector** service to our ```docker-compose.yml``` file
 
 ```
 version: "3.8"
@@ -228,7 +204,7 @@ services:
       - "4318:4318"   # OTLP http receiver
       - "55679:55679" # zpages extension
 ```
-3. create the ```otel-collector-config.yaml``` config file that will be used by the **otel collector**
+5. create the ```otel-collector-config.yaml``` config file that will be used by the **otel collector**
 
 ```
 receivers:
@@ -256,7 +232,7 @@ service:
       exporters: [otlp]
 ```
 
-4. add necessary changes to ```app.py```
+5. add necessary changes to ```app.py```
 
 ```
 from opentelemetry import trace
