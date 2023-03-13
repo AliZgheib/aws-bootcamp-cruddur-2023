@@ -368,7 +368,7 @@ XRayMiddleware(app, xray_recorder)
 
 ### Add custom instrumentation to Honeycomb & run custom queries in Honeycomb
 
-#### user_activities - popular users on Crddur
+#### user_activities - popular users on Cruddur
 
 we add custom instrumentation to the **user_activities** service and we set the **user_handle** as a custom attribute. this will allow us to discover the most popular and searched users on Cruddur platform.
 
@@ -392,7 +392,7 @@ span.set_attribute("app.user_handle", user_handle)
 
 ![HoneyComb](assets/week2/honeycomb-2.PNG)
 
-#### show_activity - popular activities on Crddur
+#### show_activity - popular activities on Cruddur
 
 we add custom instrumentation to the **show_activity** service and we set the **activity_uuid** as a custom attribute. this will allow us to discover the most popular activities on Cruddur platform.
 
@@ -417,7 +417,7 @@ span.set_attribute("app.activity_uuid", activity_uuid)
 ![HoneyComb](assets/week2/honeycomb-3.PNG)
 
 
-#### search_activities - popular activities on Crddur
+#### search_activities - popular searche terms on Cruddur
 
 we add custom instrumentation to the **search_activities** service and we set the **search_term** as a custom attribute. this will allow us to discover the most searched activities on Cruddur platform.
 
