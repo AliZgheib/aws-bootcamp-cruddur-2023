@@ -565,3 +565,43 @@ new version:
 
 
 ### Add custom instrumentation to AWS X-Ray
+
+#### Setup custom instrumentation to the notifications service
+
+1. add the neccessary imports
+
+```
+from aws_xray_sdk.core import xray_recorder
+```
+
+2. start a subsegment 
+
+```
+subsegment = xray_recorder.begin_subsegment('notifications_activities_subsegment')
+```
+
+3. add annotation to the subsegment
+
+```
+subsegment.put_annotation('results_length', len(results))
+subsegment.put_annotation('request_time', now.isoformat())
+subsegment.put_annotation('request_domain', request.url)
+subsegment.put_annotation('request_path', request.path)
+subsegment.put_annotation('request_method', request.method)
+```
+
+4. close the subsegment
+
+```
+xray_recorder.end_subsegment()
+```
+
+#### Validate the custom instrumentation on AWS X-Ray
+
+1. we run our application using ```docker compose up``` command
+
+2. we visit our cruddur application **notifications page**.
+
+3. we validate the subsegment and annotations on AWS X-Ray
+
+![Cruddur Backend flask](assets/week2/x-ray-3.PNG)
