@@ -263,9 +263,7 @@ RequestsInstrumentor().instrument()
 
 1. we run our application using ```docker compose up``` command
 
-2. we visit our home page by opening the link below:
-
-https://3000-alizgheib-awsbootcampcr-06dny5wukq3.ws-us90.gitpod.io/
+2. we visit our cruddur application home page.
 
 3. we validate on HoneyComb dashboard that we have a new dataset **cruddur-backend-flask** created and that we are successfully receiving data from our **backend-flask** service
 ![Cruddur Backend flask](assets/week2/honeycomb-1.PNG)
@@ -444,5 +442,126 @@ span.set_attribute("app.search_term", search_term)
 ![HoneyComb](assets/week2/honeycomb-4.PNG)
 
 ### Instrument Honeycomb for the frontend-application
+
+#### Introduction
+
+HoneyComb provides a good [documentation](https://docs.honeycomb.io/getting-data-in/opentelemetry/browser-js/) on how we can intergrate its service on our frontend application and allow us to have a full visibility of the traces between the frontend and the backend.
+
+there are multiple configurations that can allow us to get to the end results:
+
+- Browser Code Configuration (Exposing Your Key)
+- OpenTelemetry Collector Configuration
+- Custom Proxy Configuration
+
+we will go with the 2nd appraoch because its the most scalable one and it doesnt involve us exposing our API keys in the frontend application.
+
+#### Setup HoneyComb with our React app
+
+1. To instrument your Web page, add the following packages:
+
+```
+npm install --save \
+    @opentelemetry/api \
+    @opentelemetry/sdk-trace-web \
+    @opentelemetry/exporter-trace-otlp-http \
+    @opentelemetry/context-zone
+```
+
+2. The OpenTelemetry initialization needs to happen as early as possible in the webpage. Accomplish this by creating an initialization file, similar to the JavaScript example below.
+
+```js
+// tracing.js
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
+import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { Resource }  from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+const exporter = new OTLPTraceExporter({
+  url: `${process.env.REACT_APP_OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`,
+});
+
+const provider = new WebTracerProvider({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]:
+      process.env.REACT_APP_OTEL_SERVICE_NAME,
+  }),
+});
+provider.addSpanProcessor(new BatchSpanProcessor(exporter));
+provider.register({
+  contextManager: new ZoneContextManager(),
+});
+```
+
+3. Then, load the initialization file at the top of your web page’s header or entry point file.
+
+```js
+// index.js
+import './tracing.js'
+
+// ...rest of the app's entry point code
+```
+
+4. Connecting the Frontend and Backend Traces
+
+It is possible to connect your frontend request traces to your backend traces, which allows you to trace a request all the way from your browser through your distributed system. To connect your frontend traces to your backend traces, you need to include the trace context header in the request. This can be done as follow:
+
+```
+npm install --save \
+    @opentelemetry/instrumentation \
+    @opentelemetry/instrumentation-xml-http-request \
+    @opentelemetry/instrumentation-fetch
+```
+
+```js
+registerInstrumentations({
+  instrumentations: [
+    new XMLHttpRequestInstrumentation({
+      propagateTraceHeaderCorsUrls: [
+        new RegExp(`${process.env.REACT_APP_BACKEND_URL}`, "g"),
+      ],
+    }),
+    new FetchInstrumentation({
+      propagateTraceHeaderCorsUrls: [
+        new RegExp(`${process.env.REACT_APP_BACKEND_URL}`, "g"),
+      ],
+    }),
+  ],
+});
+```
+
+5. expose **otel-collector** port to the public in the ```.gitpod.yml```
+
+```
+ports:
+
+  # other ports
+
+  - name: otel-collector
+    port: 4318
+    visibility: public
+```
+
+6. update ```app.py``` CORS configs:
+
+old version:
+```
+  allow_headers="content-type,if-modified-since",
+```
+new version:
+```
+  allow_headers=["content-type", "if-modified-since", "traceparent"],
+```
+
+#### Validate the automated frontend instrumentation
+
+1. we run our application using ```docker compose up``` command
+
+2. we visit our cruddur application home page.
+
+3. we validate on HoneyComb dashboard the new trace(s)
+
+![Cruddur Backend flask](assets/week2/honeycomb-5.PNG)
+
 
 ### Add custom instrumentation to AWS X-Ray
