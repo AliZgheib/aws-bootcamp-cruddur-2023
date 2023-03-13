@@ -191,7 +191,8 @@ services:
     image: otel/opentelemetry-collector:0.67.0
     environment:
       HONEYCOMB_API_KEY: "${HONEYCOMB_API_KEY}"
-      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      FRONTEND_URL_HTTPS: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      FRONTEND_URL_HTTP: "http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -213,8 +214,8 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - "${FRONTEND_URL}" # this will allow trace requests from the frontend ( To solve CORS issues )
-                                # It's not required for the backend service
+            - "${FRONTEND_URL_HTTPS}" # this will allow trace requests from the frontend ( To solve CORS issues )
+            - "${FRONTEND_URL_HTTP}"  # It's not required for the backend service
 processors:
   batch:
 

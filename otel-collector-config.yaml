@@ -4,8 +4,8 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - "${FRONTEND_URL}" # this will allow trace requests from the frontend ( To solve CORS issues )
-                                # It's not required for the backend service
+            - "${FRONTEND_URL_HTTPS}" # this will allow trace requests from the frontend ( To solve CORS issues )
+            - "${FRONTEND_URL_HTTP}"  # It's not required for the backend service
 processors:
   batch:
 
